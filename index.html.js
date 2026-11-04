@@ -22,24 +22,19 @@
     </style>
 </head>
 <body>
-
     <div class="card">
         <div class="header">
             <h1 class="title">🚦 ПДД Игра РБ</h1>
             <div id="wallet" class="wallet">🪙 0</div>
         </div>
-
         <div id="question" class="question-text">Загрузка вопроса...</div>
         <div id="visual" class="visual-box">⚡</div>
-
         <div id="options-container"></div>
-
         <div id="expl-box" class="expl-box">
             <p id="expl-text" class="expl-text">Объяснение...</p>
             <button id="next-btn" class="next-btn" onclick="nextQuestion()">Дальше ➡️</button>
         </div>
     </div>
-
     <script>
         const questionsDB = [
             { id: 1, text: "Какое максимальное ограничение скорости установлено в РБ для лиц, передвигающихся на средствах персональной мобильности (СПМ)?", visual: "🛴", options: ["Не более 20 км/ч", "Не более 25 км/ч", "Не более 30 км/ч"], correct: 1, expl: "Согласно ПДД РБ, движение на средствах персональной мобильности разрешено со скоростью не более 25 км/ч." },
@@ -47,62 +42,29 @@
             { id: 3, text: "Включен красный сигнал светофора и дополнительная зеленая стрелка направо. Обязаны ли вы уступать дорогу ТС с других направлений?", visual: "🚦", options: ["Не обязаны, у нас зеленая стрелка", "Обязаны уступить дорогу ТС, движущимся с других направлений", "Преимущество определяется по помехе справа"], correct: 1, expl: "При движении в направлении стрелки, включенной одновременно с красным сигналом, водитель ОБЯЗАН уступить дорогу ТС, движущимся с других направлений (п. 39 ПДД РБ)." },
             { id: 4, text: "Вы въезжаете на нерегулируемый перекресток с круговым движением. Знаков приоритета нет. Кто имеет преимущество?", visual: "🔄", options: ["Водители, которые уже находятся на кольце", "Вы, так как являетесь помехой справа", "Тот, кто едет быстрее"], correct: 0, expl: "В РБ по умолчанию перекресток с круговым движением является главным. Въезжающий на кольцо обязан уступить дорогу (п. 109.2 ПДД РБ)." }
         ];
-
-        let currentIdx = 0;
-        let coins = 0;
-        let isAnswered = false;
-
+        let currentIdx = 0; let coins = 0; let isAnswered = false;
         function loadQuestion() {
-            isAnswered = false;
-            const q = questionsDB[currentIdx];
+            isAnswered = false; const q = questionsDB[currentIdx];
             document.getElementById("question").innerText = q.text;
             document.getElementById("visual").innerText = q.visual;
             document.getElementById("expl-box").style.display = "none";
-            
-            const container = document.getElementById("options-container");
-            container.innerHTML = "";
-            
+            const container = document.getElementById("options-container"); container.innerHTML = "";
             q.options.forEach((opt, idx) => {
-                const btn = document.createElement("button");
-                btn.className = "option-btn";
-                btn.innerText = opt;
-                btn.onclick = () => checkAnswer(idx, btn);
-                container.appendChild(btn);
+                const btn = document.createElement("button"); btn.className = "option-btn"; btn.innerText = opt;
+                btn.onclick = () => checkAnswer(idx, btn); container.appendChild(btn);
             });
         }
-
         function checkAnswer(selectedIdx, btn) {
-            if (isAnswered) return;
-            isAnswered = true;
-            const q = questionsDB[currentIdx];
+            if (isAnswered) return; isAnswered = true; const q = questionsDB[currentIdx];
             const buttons = document.getElementsByClassName("option-btn");
-            
-            if (selectedIdx === q.correct) {
-                btn.classList.add("correct");
-                coins += 15;
-                document.getElementById("wallet").innerText = "🪙 " + coins;
-            } else {
-                btn.classList.add("wrong");
-                buttons[q.correct].classList.add("correct");
-            }
-            
-            document.getElementById("expl-text").innerText = "📖 " + q.expl;
-            document.getElementById("expl-box").style.display = "block";
+            if (selectedIdx === q.correct) { btn.classList.add("correct"); coins += 15; document.getElementById("wallet").innerText = "🪙 " + coins; }
+            else { btn.classList.add("wrong"); buttons[q.correct].classList.add("correct"); }
+            document.getElementById("expl-text").innerText = "📖 " + q.expl; document.getElementById("expl-box").style.display = "block";
         }
-
         function nextQuestion() {
-            if (currentIdx < questionsDB.length - 1) {
-                currentIdx++;
-                loadQuestion();
-            } else {
-                alert("🏆 Сессия завершена!\nВы отлично потренировались.\nЗаработано: " + coins + " монет 🪙");
-                currentIdx = 0;
-                coins = 0;
-                document.getElementById("wallet").innerText = "🪙 0";
-                loadQuestion();
-            }
+            if (currentIdx < questionsDB.length - 1) { currentIdx++; loadQuestion(); }
+            else { alert("🏆 Сессия завершена!\nВы отлично потренировались.\nЗаработано: " + coins + " монет 🪙"); currentIdx = 0; coins = 0; document.getElementById("wallet").innerText = "🪙 0"; loadQuestion(); }
         }
-
         loadQuestion();
     </script>
 </body>
