@@ -3,57 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚦 ПДД Игра РБ 2026</title>
+    <title>🚦 Профи ПДД РБ 2026</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0F172A; color: #F8FAFC; margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
-        .card { background-color: #1E293B; border-radius: 16px; padding: 20px; width: 100%; max-width: 400px; border: 1px solid #334155; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-top: 20px; box-sizing: border-box; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .title { font-size: 20px; font-weight: bold; color: #FFF; margin: 0; }
-        .wallet { color: #F59E0B; font-size: 18px; font-weight: bold; background-color: #0F172A; padding: 6px 14px; border-radius: 20px; border: 1px solid #F59E0B; }
-        .question-text { font-size: 18px; font-weight: bold; text-align: center; line-height: 1.4; margin-bottom: 20px; color: #E2E8F0; }
-        .visual-box { background-color: #0F172A; border-radius: 12px; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto; font-size: 45px; border: 1px solid #334155; }
-        .option-btn { background-color: #0F172A; border: 1px solid #334155; color: #E2E8F0; width: 100%; padding: 15px; border-radius: 12px; font-size: 16px; text-align: left; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; box-sizing: border-box; }
-        .option-btn:hover { background-color: #1E293B; }
-        .correct { background-color: #16A34A !important; border-color: #22C55E !important; color: white; }
-        .wrong { background-color: #DC2626 !important; border-color: #EF4444 !important; color: white; }
-        .expl-box { background-color: #0F172A; border: 1px solid #F59E0B; border-radius: 12px; padding: 15px; margin-top: 15px; display: none; }
-        .expl-text { font-size: 14px; color: #CBD5E1; line-height: 1.5; margin: 0 0 15px 0; }
-        .next-btn { background-color: #38BDF8; color: #0F172A; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #0F172A; color: #F8FAFC; margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; box-sizing: border-box; }
+        .card { background-color: #1E293B; border-radius: 20px; padding: 20px; width: 100%; max-width: 450px; border: 1px solid #334155; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); margin-top: 10px; box-sizing: border-box; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .title { font-size: 22px; font-weight: bold; color: #38BDF8; margin: 0; }
+        .wallet { color: #F59E0B; font-size: 18px; font-weight: bold; background-color: #0F172A; padding: 8px 16px; border-radius: 20px; border: 1px solid #F59E0B; display: flex; align-items: center; gap: 5px; }
+        .progress-text { color: #94A3B8; font-size: 14px; font-weight: 600; margin-bottom: 10px; text-align: center; }
+        .question-text { font-size: 18px; font-weight: bold; text-align: center; line-height: 1.5; margin-bottom: 20px; color: #F1F5F9; }
+        .image-wrapper { background-color: #020617; border-radius: 12px; width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; border: 1px solid #38BDF8; overflow: hidden; }
+        .quiz-image { width: 100%; height: 100%; object-fit: contain; }
+        .visual-fallback { font-size: 50px; }
+        .option-btn { background-color: #0F172A; border: 1px solid #334155; color: #E2E8F0; width: 100%; padding: 16px; border-radius: 14px; font-size: 15px; font-weight: 500; text-align: left; margin-bottom: 12px; cursor: pointer; transition: all 0.2s; box-sizing: border-box; line-height: 1.4; }
+        .option-btn:hover { background-color: #1E293B; border-color: #475569; }
+        .correct { background-color: #16A34A !important; border-color: #22C55E !important; color: white !important; font-weight: bold; }
+        .wrong { background-color: #DC2626 !important; border-color: #EF4444 !important; color: white !important; }
+        .expl-box { background-color: #0F172A; border: 1px solid #F59E0B; border-radius: 14px; padding: 15px; margin-top: 15px; display: none; box-sizing: border-box; }
+        .expl-text { font-size: 14px; color: #CBD5E1; line-height: 1.6; margin: 0 0 15px 0; }
+        .next-btn { background-color: #38BDF8; color: #0F172A; border: none; width: 100%; padding: 14px; border-radius: 12px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background-color 0.2s; }
+        .next-btn:hover { background-color: #7DD3FC; }
     </style>
 </head>
 <body>
+
     <div class="card">
         <div class="header">
-            <h1 class="title">🚦 ПДД Игра РБ</h1>
+            <h1 class="title">🚦 ПДД Квест РБ</h1>
             <div id="wallet" class="wallet">🪙 0</div>
         </div>
-        <div id="question" class="question-text">Загрузка вопроса...</div>
-        <div id="visual" class="visual-box">⚡</div>
+
+        <div id="progress" class="progress-text">Вопрос 1 из 10</div>
+        <div id="question" class="question-text">Загрузка...</div>
+        
+        <div id="image-wrapper" class="image-wrapper">
+            <div id="visual-fallback" class="visual-fallback">⚡</div>
+        </div>
+
         <div id="options-container"></div>
+
         <div id="expl-box" class="expl-box">
             <p id="expl-text" class="expl-text">Объяснение...</p>
-            <button id="next-btn" class="next-btn" onclick="nextQuestion()">Дальше ➡️</button>
+            <button id="next-btn" class="next-btn" onclick="nextQuestion()">Следующий вопрос ➡️</button>
         </div>
     </div>
+
     <script>
         const questionsDB = [
-            { id: 1, text: "Какое максимальное ограничение скорости установлено в РБ для лиц, передвигающихся на средствах персональной мобильности (СПМ)?", visual: "🛴", options: ["Не более 20 км/ч", "Не более 25 км/ч", "Не более 30 км/ч"], correct: 1, expl: "Согласно ПДД РБ, движение на средствах персональной мобильности разрешено со скоростью не более 25 км/ч." },
-            { id: 2, text: "Регулировщик обращен к вам лицом, его руки вытянуты в стороны или опущены. Какое движение вам разрешено?", visual: "👮‍♂️", options: ["Движение запрещено строго", "Разрешено движение только прямо", "Разрешен поворот направо"], correct: 0, expl: "Если регулировщик расположен к вам грудью или спиной — это жест 'Стена', движение запрещено во всех направлениях (п. 35.1 ПДД РБ)." },
-            { id: 3, text: "Включен красный сигнал светофора и дополнительная зеленая стрелка направо. Обязаны ли вы уступать дорогу ТС с других направлений?", visual: "🚦", options: ["Не обязаны, у нас зеленая стрелка", "Обязаны уступить дорогу ТС, движущимся с других направлений", "Преимущество определяется по помехе справа"], correct: 1, expl: "При движении в направлении стрелки, включенной одновременно с красным сигналом, водитель ОБЯЗАН уступить дорогу ТС, движущимся с других направлений (п. 39 ПДД РБ)." },
-            { id: 4, text: "Вы въезжаете на нерегулируемый перекресток с круговым движением. Знаков приоритета нет. Кто имеет преимущество?", visual: "🔄", options: ["Водители, которые уже находятся на кольце", "Вы, так как являетесь помехой справа", "Тот, кто едет быстрее"], correct: 0, expl: "В РБ по умолчанию перекресток с круговым движением является главным. Въезжающий на кольцо обязан уступить дорогу (п. 109.2 ПДД РБ)." }
+            { id: 1, text: "Какое максимальное ограничение скорости установлено в РБ для лиц, передвигающихся на средствах персональной mobility (СПМ)?", isImage: false, fallback: "🛴", options: ["Не более 20 км/ч", "Не более 25 км/ч", "Не более 30 км/ч"], correct: 1, expl: "Движение на СПМ (электросамокаты, гироскутеры, моноколеса) разрешено со скоростью не более 25 км/ч." },
+            { id: 2, text: "Регулировщик обращен к вам лицом, его руки вытянуты в стороны или опущены. Какое движение вам разрешено?", isImage: false, fallback: "👮‍♂️", options: ["Движение запрещено строго", "Разрешено движение только прямо", "Разрешен поворот направо"], correct: 0, expl: "Если регулировщик расположен к вам грудью или спиной — это жест 'Стена', движение запрещено во всех направлениях (п. 35.1 ПДД РБ)." },
+            { id: 3, text: "Включен красный сигнал светофора и дополнительная зеленая стрелка направо. Обязаны ли вы уступать дорогу ТС с других направлений?", isImage: false, fallback: "🚦", options: ["Не обязаны, у нас горит зеленая стрелка", "Обязаны уступить дорогу ТС, движущимся с других направлений", "Преимущество определяется по помехе справа"], correct: 1, expl: "При движении в направлении стрелки, включенной одновременно с красным сигналом, водитель ОБЯЗАН уступить дорогу ТС, движущимся с других направлений (п. 39 ПДД РБ)." },
+            { id: 4, text: "Вы въезжаете на нерегулируемый перекресток с круговым движением. Знаков приоритета нет. Кто имеет преимущество?", isImage: false, fallback: "🔄", options: ["Водители, которые уже находятся на кольце", "Вы, так как являетесь помехой справа", "Тот, кто едет быстрее"], correct: 0, expl: "В РБ по умолчанию перекресток с круговым движением является главным. Въезжающий на кольцо обязан уступить дорогу (п. 109.2 ПДД РБ)." },
+            { id: 5, text: "При какой неисправности тормозной системы водителю ЗАПРЕЩАЕТСЯ продолжать движение даже до места ремонта?", isImage: false, fallback: "🛑", options: ["Если рабочая тормозная система не позволяет остановить ТС при движении на минимальной скорости", "Если горит индикатор износа колодок", "Если увеличен ход педали тормоза"], correct: 0, expl: "Если тормозная система полностью не работает и не позволяет остановить машину, дальнейшее движение строго запрещено (Приложение 4 ПДД РБ)." },
+            { id: 6, text: "Разрешается ли водителю выполнять разворот в местах остановок маршрутных транспортных средств в РБ?", isImage: false, fallback: "🚌", options: ["Запрещается строго во всех случаях", "Разрешается, если не создается помех автобусам", "Разрешается только в светлое время суток"], correct: 0, expl: "Пункт 39.1 ПДД РБ прямо и строго запрещает разворот в местах остановок маршрутных транспортных средств." },
+            { id: 7, text: "Вне населенных пунктов вам разрешено двигаться по левой полосе при абсолютно свободных правых?", isImage: false, fallback: "🛣️", options: ["Запрещено. Водитель обязан вести ТС по возможности ближе к правому краю", "Разрешено, если ваша скорость выше 90 км/ч", "Разрешено в светлое время суток"], correct: 0, expl: "Вне населенных пунктов действуют правила рядности: занимай правую полосу, если она свободна. Езда по левой полосе при свободных правых запрещена (п. 79.1)." },
+            { id: 8, text: "На каком минимальном расстоянии от пешеходных переходов разрешается остановка и стоянка транспортных средств в РБ?", isImage: false, fallback: "🚶", options: ["Не ближе 5 метров", "Не ближе 10 метров", "Не ближе 15 метров"], correct: 2, expl: "Остановка и стоянка ТС запрещаются на пешеходных переходах и ближе 15 метров от них в обе стороны (п. 143.1 ПДД РБ)." },
+            { id: 9, text: "На каком минимальном расстоянии при встречном разъезде ночью водители обязаны переключить дальний свет фар на ближний?", isImage: false, fallback: "🌙", options: ["Не менее чем за 100 метров", "Не менее чем за 150 метров", "Не менее чем за 200 метров"], correct: 1, expl: "Дальний свет должен быть переключен на ближний не менее чем за 150 метров до встречного ТС, чтобы не ослепить водителя (п. 162 ПДД РБ)." },
+            { id: 10, text: "С какого возраста в РБ разрешается официальное обучение управлению легковым автомобилем на дорогах общего пользования?", isImage: false, fallback: "🔰", options: ["С 16 лет", "С 17 лет", "С 18 лет"], correct: 0, expl: "Обучать вождению автомобиля на дорогах общего пользования разрешается лицам, достигшим 16 лет (п. 154 ПДД РБ)." }
         ];
+
         let currentIdx = 0; let coins = 0; let isAnswered = false;
+
         function loadQuestion() {
             isAnswered = false; const q = questionsDB[currentIdx];
+            document.getElementById("progress").innerText = `Вопрос ${currentIdx + 1} из ${questionsDB.length}`;
             document.getElementById("question").innerText = q.text;
-            document.getElementById("visual").innerText = q.visual;
             document.getElementById("expl-box").style.display = "none";
+            
+            const imgWrapper = document.getElementById("image-wrapper");
+            if (q.isImage) {
+                imgWrapper.innerHTML = `<img src="${q.src}" class="quiz-image" alt="ПДД ситуация">`;
+            } else {
+                imgWrapper.innerHTML = `<div class="visual-fallback">${q.fallback}</div>`;
+            }
+            
             const container = document.getElementById("options-container"); container.innerHTML = "";
             q.options.forEach((opt, idx) => {
                 const btn = document.createElement("button"); btn.className = "option-btn"; btn.innerText = opt;
                 btn.onclick = () => checkAnswer(idx, btn); container.appendChild(btn);
             });
         }
+
         function checkAnswer(selectedIdx, btn) {
             if (isAnswered) return; isAnswered = true; const q = questionsDB[currentIdx];
             const buttons = document.getElementsByClassName("option-btn");
@@ -61,11 +91,5 @@
             else { btn.classList.add("wrong"); buttons[q.correct].classList.add("correct"); }
             document.getElementById("expl-text").innerText = "📖 " + q.expl; document.getElementById("expl-box").style.display = "block";
         }
+
         function nextQuestion() {
-            if (currentIdx < questionsDB.length - 1) { currentIdx++; loadQuestion(); }
-            else { alert("🏆 Сессия завершена!\nВы отлично потренировались.\nЗаработано: " + coins + " монет 🪙"); currentIdx = 0; coins = 0; document.getElementById("wallet").innerText = "🪙 0"; loadQuestion(); }
-        }
-        loadQuestion();
-    </script>
-</body>
-</html>
